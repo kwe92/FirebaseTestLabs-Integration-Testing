@@ -27,11 +27,17 @@ void main() {
     (WidgetTester tester) async {
       await tester.pumpWidget(MyApp());
 
+      await _delay(2);
+
       final inputText = 'Hello there, this is an input.';
       await tester.enterText(find.byKey(Key('your-text-field')), inputText);
 
+      await _delay(2);
+
       await tester.tap(find.byType(FloatingActionButton));
       await tester.pumpAndSettle();
+
+      await _delay(2);
 
       expect(find.byType(TypingPage), findsNothing);
       expect(find.byType(DisplayPage), findsOneWidget);
@@ -40,9 +46,13 @@ void main() {
       await tester.tap(find.byType(BackButton));
       await tester.pumpAndSettle();
 
+      await _delay(2);
+
       expect(find.byType(TypingPage), findsOneWidget);
       expect(find.byType(DisplayPage), findsNothing);
       expect(find.text(inputText), findsNothing);
     },
   );
 }
+
+Future<void> _delay(int seconds) => Future.delayed(Duration(seconds: seconds));
